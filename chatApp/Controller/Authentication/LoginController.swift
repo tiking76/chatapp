@@ -5,7 +5,13 @@
 
 import UIKit
 
+protocol AuthenticationControllerProtocol {
+    func checkFormStatus()
+}
+
 class LoginController : UIViewController {
+    
+    private var viewModel = LoginViewModel()
 
     private let iconImage: UIImageView = {
         let iv = UIImageView()
@@ -14,26 +20,27 @@ class LoginController : UIViewController {
         return iv
     }()
 
-
     //xibみたいなことをやってる。
     private lazy var emailContainerView: UIView = {
-        return InputContainerView(image: UIImage(systemName: "envelope")!, textField: emilTextField)
+        return InputContainerView(image: #imageLiteral(resourceName: "ic_mail_outline_white_2x"), textField: emilTextField)
     }()
 
 
     //xibみたいなことをやってる。
     private lazy var passwordContainerView : InputContainerView = {
-        return InputContainerView(image: UIImage(systemName: "lock")!, textField: passwordTextField)
+        return InputContainerView(image: #imageLiteral(resourceName: "ic_lock_outline_white_2x"), textField: passwordTextField)
     }()
 
     private let loginButton : UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Log In", for: .normal)
         button.layer.cornerRadius = 5
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.backgroundColor = .systemPink
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        button.backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.setHeight(height: 50)
+        button.isEnabled = false
+        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
     }()
 
@@ -72,7 +79,22 @@ class LoginController : UIViewController {
         let vc = RegistrationController()
         navigationController?.pushViewController(vc, animated: true)
     }
-
+    
+    @objc func textDidChange(sender: UITextField) {
+        
+        if sender == emilTextField {
+            viewModel.email = sender.text
+        } else {
+            viewModel.passwprd = sender.text
+        }
+        
+        checkFormStatus()
+    }
+    
+    @objc func handleLogin() {
+        print("DEBUG: Handle login here..")
+    }
+    
     func configureUI() {
         navigationController?.navigationBar.isHidden = true
         navigationController?.navigationBar.barStyle = .black
@@ -95,14 +117,23 @@ class LoginController : UIViewController {
 
         view.addSubview(dontHaveAccountButton)
         dontHaveAccountButton.anchor(left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingLeft: 32,paddingBottom: 32, paddingRight: 32)
-    }
+        
+        emilTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
 
-    //グラデーションをかけてる Pink X purple
-    func configureGradientLayer() {
-        let gradient = CAGradientLayer()
-        gradient.colors = [UIColor.systemPurple.cgColor, UIColor.systemPink.cgColor]
-        gradient.locations = [0,1]
-        view.layer.addSublayer(gradient)
-        gradient.frame = view.frame
     }
+}
+
+extension LoginController : AuthenticationControllerProtocol {
+    
+    func checkFormStatus() {
+        if viewModel.formIsVaild {
+            loginButton.isEnabled = true
+            loginButton.backgroundColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+        }else {
+            loginButton.isEnabled = false
+            loginButton.backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)
+        }
+    }
+    
 }

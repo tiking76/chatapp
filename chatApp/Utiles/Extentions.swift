@@ -90,3 +90,14 @@ extension UIView {
                 bottom: view.bottomAnchor, right: view.rightAnchor)
     }
 }
+
+extension UIViewController {
+    //グラデーションをかけてる Pink X purple
+    func configureGradientLayer() {
+        let gradient = CAGradientLayer()
+        gradient.colors = [UIColor.systemPurple.cgColor, UIColor.systemPink.cgColor]
+        gradient.locations = [0,1]
+        view.layer.addSublayer(gradient)
+        gradient.frame = view.frame
+    }
+}
