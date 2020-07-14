@@ -16,7 +16,6 @@ protocol  AuthenticationProtocol {
 struct LoginViewModel : AuthenticationProtocol {
     var email : String?
     var passwprd : String?
-    
     var formIsVaild : Bool {
         return email?.isEmpty == false && passwprd?.isEmpty == false
     }

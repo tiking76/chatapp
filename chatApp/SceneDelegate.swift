@@ -17,8 +17,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
+        //ここでnavigationControllerに追加している
         let nav = UINavigationController(rootViewController: LoginController())
         window?.rootViewController = nav
+        //UIWindow の makeKeyAndVisible() メソッドはレシーバを前面に表示し、キーボード等のイベントを受け付けるようにするメソッド
         window?.makeKeyAndVisible()
     }
 

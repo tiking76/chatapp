@@ -18,9 +18,11 @@ class RegistrationController : UIViewController {
         return button
     }()
     
+    
     private lazy var EmailContainerView : InputContainerView = {
         return InputContainerView(image: #imageLiteral(resourceName: "ic_mail_outline_white_2x"), textField: EmailTextField)
     }()
+    
     
     private let EmailTextField = CustomTextField(placeholder: "Email")
     
@@ -29,23 +31,29 @@ class RegistrationController : UIViewController {
         return InputContainerView(image: #imageLiteral(resourceName: "ic_person_outline_white_2x"), textField: FullNameTextField)
     }()
     
+    
     private let FullNameTextField = CustomTextField(placeholder: "Full Name")
+    
     
     private lazy var UserNameContainerView : InputContainerView = {
         return InputContainerView(image: #imageLiteral(resourceName: "ic_person_outline_white_2x"), textField: UserNameTextField)
     }()
     
+    
     private let UserNameTextField = CustomTextField(placeholder: "Username")
+    
     
     private lazy var PasswordContainerView : InputContainerView = {
         return InputContainerView(image: #imageLiteral(resourceName: "ic_lock_outline_white_2x"), textField: PasswordTextField)
     }()
+    
     
     private let PasswordTextField : CustomTextField = {
         let tf = CustomTextField(placeholder: "password")
         tf.isSecureTextEntry = true
         return tf
     }()
+    
     
     private let SignUpButton : UIButton = {
         let button = UIButton(type: .system)
@@ -61,13 +69,12 @@ class RegistrationController : UIViewController {
     
     private let AlreadyHaveAccountButton: UIButton = {
            let button = UIButton(type: .system)
-           let attributeTitle = NSMutableAttributedString(string: "Already have an account? ", attributes: [.font : UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.white])
-           attributeTitle.append(NSAttributedString(string: "Log In", attributes: [.font : UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.white]))
-
+           let attributeTitle = NSMutableAttributedString(string: "Already have an account? ",
+                                                          attributes: [.font : UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.white])
+           attributeTitle.append(NSAttributedString(string: "Log In",
+                                                    attributes: [.font : UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.white]))
            button.setAttributedTitle(attributeTitle, for: .normal)
-
            button.addTarget(self, action: #selector(handleShowLogIn), for: .touchDragInside)
-
            return button
        }()
     
@@ -77,6 +84,7 @@ class RegistrationController : UIViewController {
         configureUI()
         configureNotificationObservers()
     }
+    
     
     @objc func textDidChange(sender: UITextField) {
         if sender == EmailTextField {
@@ -88,9 +96,9 @@ class RegistrationController : UIViewController {
         } else {
             viewModel.passwprd = sender.text
         }
-        
         checkFormStatus()
     }
+    
     
     @objc func handleSelectPhoto() {
         let imagePickerController = UIImagePickerController()
@@ -98,18 +106,18 @@ class RegistrationController : UIViewController {
         present(imagePickerController, animated: true, completion: nil)
     }
     
+    
     @objc func handleShowLogIn() {
         navigationController?.popViewController(animated: true)
     }
 
+    
     func configureUI() {
         configureGradientLayer()
-        
         view.addSubview(plusPhotoButton)
         plusPhotoButton.centerX(inView: view)
         plusPhotoButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 32)
         plusPhotoButton.setDimensions(width: 120, height: 120)
-        
         let stack = UIStackView(arrangedSubviews: [EmailContainerView,
                                                    FullNameContainerView,
                                                    UserNameContainerView,
@@ -118,15 +126,22 @@ class RegistrationController : UIViewController {
         //垂直に置く
         stack.axis = .vertical
         stack.spacing = 16
-
         view.addSubview(stack)
-        stack.anchor(top: plusPhotoButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 32, paddingLeft: 32, paddingRight: 32)
-        
+        stack.anchor(top: plusPhotoButton.bottomAnchor,
+                     left: view.leftAnchor,
+                     right: view.rightAnchor,
+                     paddingTop: 32,
+                     paddingLeft: 32,
+                     paddingRight: 32)
         view.addSubview(AlreadyHaveAccountButton)
-        AlreadyHaveAccountButton.anchor(left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingLeft: 32,paddingBottom: 32, paddingRight: 32)
-        
-        
+        AlreadyHaveAccountButton.anchor(left: view.leftAnchor,
+                                        bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                                        right: view.rightAnchor,
+                                        paddingLeft: 32,
+                                        paddingBottom: 32,
+                                        paddingRight: 32)
     }
+    
     
     func configureNotificationObservers() {
         EmailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
@@ -134,8 +149,8 @@ class RegistrationController : UIViewController {
         UserNameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         PasswordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
-    
 }
+
 
 //写真を丸くしたとアルバムからの選択
 extension RegistrationController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -153,7 +168,6 @@ extension RegistrationController : UIImagePickerControllerDelegate, UINavigation
 
 
 extension RegistrationController : AuthenticationControllerProtocol {
-    
     func checkFormStatus() {
         if viewModel.formIsVaild {
             SignUpButton.isEnabled = true
@@ -163,5 +177,4 @@ extension RegistrationController : AuthenticationControllerProtocol {
             SignUpButton.backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)
         }
     }
-    
 }

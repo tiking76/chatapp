@@ -7,6 +7,7 @@ import UIKit
 
 private let reuseIdentifier = "ConversationCell"
 
+
 class ConversationsController: UIViewController {
 
     private let tableView = UITableView()
@@ -16,22 +17,24 @@ class ConversationsController: UIViewController {
         configureUI()
     }
 
-    //MARK: -Helper
 
     @objc func showProfile() {
         print(123)
     }
 
+    
     func configureUI() {
         view.backgroundColor = .white
-
         configureNavigationBar()
         configureTableView()
-
         let image = UIImage(systemName: "person.circle.fill")
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(showProfile))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: image,
+                                                           style: .plain,
+                                                           target: self,
+                                                           action: #selector(showProfile))
     }
 
+    
     func configureTableView() {
         tableView.backgroundColor = .white
         tableView.rowHeight = 80
@@ -39,26 +42,23 @@ class ConversationsController: UIViewController {
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
-
         view.addSubview(tableView)
         tableView.frame = view.frame
     }
 
+    
     func configureNavigationBar() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         appearance.backgroundColor = .systemPurple
-
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Hello"
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.isTranslucent = true
-
         navigationController?.navigationBar.overrideUserInterfaceStyle = .dark
     }
 }

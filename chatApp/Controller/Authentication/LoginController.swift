@@ -20,6 +20,7 @@ class LoginController : UIViewController {
         return iv
     }()
 
+    
     //xibみたいなことをやってる。
     private lazy var emailContainerView: UIView = {
         return InputContainerView(image: #imageLiteral(resourceName: "ic_mail_outline_white_2x"), textField: emilTextField)
@@ -31,6 +32,7 @@ class LoginController : UIViewController {
         return InputContainerView(image: #imageLiteral(resourceName: "ic_lock_outline_white_2x"), textField: passwordTextField)
     }()
 
+    
     private let loginButton : UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Log In", for: .normal)
@@ -43,12 +45,15 @@ class LoginController : UIViewController {
         button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
     }()
+    
+    
 
     private let emilTextField : CustomTextField = {
         let textField = CustomTextField(placeholder: "Email")
         return textField
     }()
 
+    
     private let passwordTextField : CustomTextField = {
         let textField = CustomTextField(placeholder: "password")
         textField.isSecureTextEntry = true
@@ -56,16 +61,14 @@ class LoginController : UIViewController {
     }()
 
 
-
     private let dontHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
-        let attributeTitle = NSMutableAttributedString(string: "Don't have an account? ", attributes: [.font : UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.white])
-        attributeTitle.append(NSAttributedString(string: "Sign Up", attributes: [.font : UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.white]))
-
+        let attributeTitle = NSMutableAttributedString(string: "Don't have an account? ",
+                                                       attributes: [.font : UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.white])
+        attributeTitle.append(NSAttributedString(string: "Sign Up",
+                                                 attributes: [.font : UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.white]))
         button.setAttributedTitle(attributeTitle, for: .normal)
-
         button.addTarget(self, action: #selector(handleShowSignUp), for: .touchDragInside)
-
         return button
     }()
 
@@ -75,54 +78,59 @@ class LoginController : UIViewController {
         configureUI()
     }
 
+    
     @objc func handleShowSignUp() {
         let vc = RegistrationController()
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    
     @objc func textDidChange(sender: UITextField) {
-        
         if sender == emilTextField {
             viewModel.email = sender.text
         } else {
             viewModel.passwprd = sender.text
         }
-        
         checkFormStatus()
     }
+    
     
     @objc func handleLogin() {
         print("DEBUG: Handle login here..")
     }
     
+    
     func configureUI() {
         navigationController?.navigationBar.isHidden = true
         navigationController?.navigationBar.barStyle = .black
-
         configureGradientLayer()
-
         view.addSubview(iconImage)
         iconImage.centerX(inView: view)
         iconImage.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingBottom: 32)
         iconImage.setDimensions(width: 120, height: 120)
-
         let stack = UIStackView(arrangedSubviews: [emailContainerView, passwordContainerView, loginButton])
-
         //垂直に置く
         stack.axis = .vertical
         stack.spacing = 16
-
         view.addSubview(stack)
-        stack.anchor(top: iconImage.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 32, paddingLeft: 32, paddingRight: 32)
-
+        stack.anchor(top: iconImage.bottomAnchor,
+                     left: view.leftAnchor,
+                     right: view.rightAnchor,
+                     paddingTop: 32,
+                     paddingLeft: 32,
+                     paddingRight: 32)
         view.addSubview(dontHaveAccountButton)
-        dontHaveAccountButton.anchor(left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingLeft: 32,paddingBottom: 32, paddingRight: 32)
-        
+        dontHaveAccountButton.anchor(left: view.leftAnchor,
+                                     bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                                     right: view.rightAnchor,
+                                     paddingLeft: 32,
+                                     paddingBottom: 32,
+                                     paddingRight: 32)
         emilTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-
     }
 }
+
 
 extension LoginController : AuthenticationControllerProtocol {
     
@@ -135,5 +143,4 @@ extension LoginController : AuthenticationControllerProtocol {
             loginButton.backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)
         }
     }
-    
 }
