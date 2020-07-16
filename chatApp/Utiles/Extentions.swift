@@ -4,6 +4,8 @@
 //
 
 import UIKit
+import JGProgressHUD
+
 
 extension UIView {
     func anchor(top: NSLayoutYAxisAnchor? = nil,
@@ -92,6 +94,9 @@ extension UIView {
 }
 
 extension UIViewController {
+    
+    static let hud = JGProgressHUD(style: .dark)
+    
     //グラデーションをかけてる Pink X purple
     func configureGradientLayer() {
         let gradient = CAGradientLayer()
@@ -99,5 +104,32 @@ extension UIViewController {
         gradient.locations = [0,1]
         view.layer.addSublayer(gradient)
         gradient.frame = view.frame
+    }
+    
+    //オプションで付けたい引数はOptinalで宣言する。
+    func showLoader(_ show : Bool, withText text: String? = "Loading") {
+        view.endEditing(true)
+        UIViewController.hud.textLabel.text = text
+        
+        if show {
+            UIViewController.hud.show(in: view)
+        } else {
+            UIViewController.hud.dismiss()
+        }
+    }
+    
+    func configureNavigationBar(withTitle title: String, prefersLargeTitle: Bool) {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.backgroundColor = .systemPurple
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.prefersLargeTitles = prefersLargeTitle
+        navigationItem.title = title
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.overrideUserInterfaceStyle = .dark
     }
 }

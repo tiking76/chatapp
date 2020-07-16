@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11725CF524BF85D8003F0AFF /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11725CF424BF85D8003F0AFF /* AuthService.swift */; };
+		11938E4424C01D850078BB38 /* NewMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11938E4324C01D850078BB38 /* NewMessageController.swift */; };
 		11F84F2F24B6F5C300EAFD0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F84F2E24B6F5C300EAFD0D /* AppDelegate.swift */; };
 		11F84F3124B6F5C300EAFD0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F84F3024B6F5C300EAFD0D /* SceneDelegate.swift */; };
 		11F84F3324B6F5C300EAFD0D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F84F3224B6F5C300EAFD0D /* ViewController.swift */; };
@@ -26,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		11725CF424BF85D8003F0AFF /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		11938E4324C01D850078BB38 /* NewMessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageController.swift; sourceTree = "<group>"; };
 		11F84F2B24B6F5C300EAFD0D /* chatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11F84F2E24B6F5C300EAFD0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		11F84F3024B6F5C300EAFD0D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -113,15 +117,15 @@
 				BBF93F004D5EA61EE1FAB402 /* Pods-chatApp.debug.xcconfig */,
 				B5B7028D418467560057B73D /* Pods-chatApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
 		FB774005AFF9146AF812EB6D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				FB774553C0B88F87E4D376D8 /* ConversationsController.swift */,
 				FB774E6738BCF49F1F5EC9A9 /* Authentication */,
+				FB774553C0B88F87E4D376D8 /* ConversationsController.swift */,
+				11938E4324C01D850078BB38 /* NewMessageController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -145,6 +149,7 @@
 		FB774535FC5F32DF92AB3D6A /* API */ = {
 			isa = PBXGroup;
 			children = (
+				11725CF424BF85D8003F0AFF /* AuthService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -294,6 +299,7 @@
 				11F84F3324B6F5C300EAFD0D /* ViewController.swift in Sources */,
 				11F84F4524BCE69F00EAFD0D /* RegistrationViewModel.swift in Sources */,
 				11F84F2F24B6F5C300EAFD0D /* AppDelegate.swift in Sources */,
+				11725CF524BF85D8003F0AFF /* AuthService.swift in Sources */,
 				11F84F3124B6F5C300EAFD0D /* SceneDelegate.swift in Sources */,
 				FB774CCC0D19C6EC388B177C /* ConversationsController.swift in Sources */,
 				FB774C2E718BA4F881A71FC3 /* LoginController.swift in Sources */,
@@ -302,6 +308,7 @@
 				FB7741299B2FD3496356DB05 /* InputContainerView.swift in Sources */,
 				11F84F4324BCD21500EAFD0D /* LoginViewModel.swift in Sources */,
 				FB774453052CAB125EF06D2E /* ContainerTextField.swift in Sources */,
+				11938E4424C01D850078BB38 /* NewMessageController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

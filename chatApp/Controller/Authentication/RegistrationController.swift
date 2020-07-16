@@ -4,16 +4,20 @@
 //
 
 import UIKit
+import Firebase
 
 class RegistrationController : UIViewController {
     
     private var viewModel = RegistrationViewModel()
+    
+    private var profileImage : UIImage?
 
     private let plusPhotoButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "plus_photo"), for: .normal)
         button.tintColor = .white
         button.addTarget(self, action: #selector(handleSelectPhoto), for: .touchUpInside)
+        button.imageView?.contentMode = .scaleAspectFill
         button.clipsToBounds = true
         return button
     }()
@@ -63,6 +67,8 @@ class RegistrationController : UIViewController {
         button.backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.setHeight(height: 50)
+        button.isEnabled = false
+        button.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
         return button
     }()
     
@@ -100,6 +106,20 @@ class RegistrationController : UIViewController {
     }
     
     
+    @objc func keyboardWillShow() {
+        if view.frame.origin.y == 0 {
+            self.view.frame.origin.y -= 88
+        }
+    }
+    
+    
+    @objc func keyboardWillHide() {
+        if view.frame.origin.y != 0 {
+            view.frame.origin.y = 0
+        }
+    }
+    
+    
     @objc func handleSelectPhoto() {
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
@@ -109,6 +129,34 @@ class RegistrationController : UIViewController {
     
     @objc func handleShowLogIn() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    
+    @objc func handleRegistration() {
+        guard let email = EmailTextField.text else { return }
+        guard let fullName = FullNameTextField.text else { return }
+        guard let userName = UserNameTextField.text else { return }
+        guard let password = PasswordTextField.text?.lowercased() else { return }
+        guard let profileImage = profileImage else { return }
+        
+        let credentials = RegistrationCredentials(email: email,
+                                                  password: password,
+                                                  fullname: fullName,
+                                                  username: userName,
+                                                  profileImage: profileImage)
+        
+        showLoader(true, withText: "Signing You Up")
+        
+        AuthService.shared.createUser(credentials: credentials) { error in
+            if let error = error {
+                print("DEBUG: \(error.localizedDescription)")
+                self.showLoader(false)
+                return
+            }
+            
+            self.showLoader(false)
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 
     
@@ -148,6 +196,9 @@ class RegistrationController : UIViewController {
         FullNameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         UserNameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         PasswordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 }
 
@@ -156,6 +207,7 @@ class RegistrationController : UIViewController {
 extension RegistrationController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[.originalImage] as? UIImage
+        profileImage = image
         plusPhotoButton.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
         plusPhotoButton.layer.borderColor = UIColor.white.cgColor
         plusPhotoButton.layer.borderWidth = 3.0

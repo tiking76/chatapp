@@ -4,6 +4,9 @@
 //
 
 import UIKit
+import Firebase
+import JGProgressHUD
+
 
 protocol AuthenticationControllerProtocol {
     func checkFormStatus()
@@ -23,7 +26,7 @@ class LoginController : UIViewController {
     
     //xibみたいなことをやってる。
     private lazy var emailContainerView: UIView = {
-        return InputContainerView(image: #imageLiteral(resourceName: "ic_mail_outline_white_2x"), textField: emilTextField)
+        return InputContainerView(image: #imageLiteral(resourceName: "ic_mail_outline_white_2x"), textField: emailTextField)
     }()
 
 
@@ -48,7 +51,7 @@ class LoginController : UIViewController {
     
     
 
-    private let emilTextField : CustomTextField = {
+    private let emailTextField : CustomTextField = {
         let textField = CustomTextField(placeholder: "Email")
         return textField
     }()
@@ -86,7 +89,7 @@ class LoginController : UIViewController {
     
     
     @objc func textDidChange(sender: UITextField) {
-        if sender == emilTextField {
+        if sender == emailTextField {
             viewModel.email = sender.text
         } else {
             viewModel.passwprd = sender.text
@@ -95,8 +98,23 @@ class LoginController : UIViewController {
     }
     
     
+    //基本的なLogin処理の書き方
     @objc func handleLogin() {
-        print("DEBUG: Handle login here..")
+        guard let email = emailTextField.text else { return }
+        guard let password = passwordTextField.text?.lowercased() else { return }
+        
+        showLoader(true, withText: "Loggin in")
+        
+        AuthService.shared.logUserIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                print("DEBUG: Faild to login with error \(error.localizedDescription)")
+                self.showLoader(false)
+                return
+            }
+            
+            self.showLoader(false)
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     
@@ -126,7 +144,7 @@ class LoginController : UIViewController {
                                      paddingLeft: 32,
                                      paddingBottom: 32,
                                      paddingRight: 32)
-        emilTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
 }
