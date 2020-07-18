@@ -150,6 +150,7 @@ class LoginController : UIViewController {
 }
 
 
+
 extension LoginController : AuthenticationControllerProtocol {
     
     func checkFormStatus() {
