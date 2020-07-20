@@ -102,19 +102,22 @@ extension UIViewController {
         let gradient = CAGradientLayer()
         gradient.colors = [UIColor.systemPurple.cgColor, UIColor.systemPink.cgColor]
         gradient.locations = [0,1]
-        view.layer.addSublayer(gradient)
+        view.layer
+            .addSublayer(gradient)
         gradient.frame = view.frame
     }
     
     //オプションで付けたい引数はOptinalで宣言する。
     func showLoader(_ show : Bool, withText text: String? = "Loading") {
-        view.endEditing(true)
-        UIViewController.hud.textLabel.text = text
-        
-        if show {
-            UIViewController.hud.show(in: view)
-        } else {
-            UIViewController.hud.dismiss()
+        DispatchQueue.main.async {
+            self.view.endEditing(true)
+            UIViewController.hud.textLabel.text = text
+            
+            if show {
+                UIViewController.hud.show(in: self.view)
+            } else {
+                UIViewController.hud.dismiss()
+            }
         }
     }
     

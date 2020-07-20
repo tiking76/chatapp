@@ -8,9 +8,15 @@
 
 import UIKit
 
+protocol CustomInputAccessoryViewDelegate: class {
+    func inputView(_ inputView: CustomInputAccessoryView, wantsToSend message: String)
+}
+
 class CustomInputAccessoryView: UIView {
     
-    private let messageInputTextView: UITextView = {
+    weak var delegate: CustomInputAccessoryViewDelegate?
+    
+    lazy var messageInputTextView: UITextView = {
         let tv = UITextView()
         tv.backgroundColor = .clear
         tv.font = UIFont.systemFont(ofSize: 16)
@@ -18,11 +24,11 @@ class CustomInputAccessoryView: UIView {
         return tv
     }()
     
-    private let sendButton : UIButton = {
+    private lazy var sendButton : UIButton = {
         let button = UIButton()
         button.setTitle("Send", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        button.setTitleColor(.systemPink, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.setTitleColor(#colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1), for: .normal)
         button.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
         return button
     }()
@@ -72,10 +78,11 @@ class CustomInputAccessoryView: UIView {
     }
     
     @objc func handleSendMessage() {
-        placeholderLabel.isHidden = !self.messageInputTextView.text.isEmpty
-        print("test")
+       guard let message = messageInputTextView.text else { return }
+       delegate?.inputView(self, wantsToSend: message)
     }
     
     @objc func handkeTextInputChange() {
+        placeholderLabel.isHidden = !self.messageInputTextView.text.isEmpty
     }
 }
