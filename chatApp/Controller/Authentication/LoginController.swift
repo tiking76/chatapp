@@ -25,7 +25,7 @@ class LoginController : UIViewController {
 
     
     //xibみたいなことをやってる。
-    private lazy var emailContainerView: UIView = {
+    private lazy var emailContainerView: InputContainerView = {
         return InputContainerView(image: #imageLiteral(resourceName: "ic_mail_outline_white_2x"), textField: emailTextField)
     }()
 
