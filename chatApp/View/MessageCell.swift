@@ -54,7 +54,6 @@ class MessageCell : UICollectionViewCell {
         bubbleContainer.widthAnchor.constraint(lessThanOrEqualToConstant: 250).isActive = true
         
         bubbleLeftAnchor = bubbleContainer.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 12)
-        
         bubbleLeftAnchor.isActive = false
         bubbleRightAnchor = bubbleContainer.rightAnchor.constraint(equalTo: rightAnchor, constant: -12)
         bubbleRightAnchor.isActive = false
@@ -78,6 +77,8 @@ class MessageCell : UICollectionViewCell {
         
         bubbleLeftAnchor.isActive = viewModel.leftAnchorActive
         bubbleRightAnchor.isActive = viewModel.rightAnchorActive
+        
+        profileImageView.isHighlighted = viewModel.shouldHideProfileImage
     }
     
 }
