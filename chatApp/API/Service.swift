@@ -24,4 +24,38 @@ struct Service {
             })
         }
     }
+    
+    
+    static func featchMessages(forUser user: User, complication : @escaping ([Message]) -> Void) {
+        var message  = [Message]()
+        
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        
+        let quary = COLECTION_MESSAGES.document(currentUid).collection(user.uid).order(by: "timeatamp")
+        
+        quary.addSnapshotListener { (snapshot, error) in
+            snapshot?.documentChanges.forEach({ change in
+                if change.type == .added {
+                    let dictionary = change.document.data()
+                    message.append(Message(dictinary: dictionary))
+                    complication(message)
+                }
+            })
+        }
+    }
+    
+    
+    static func uploadMessage(_ message: String, to user: User, complication: ((Error?) -> Void)? ) {
+    guard let currentUid = Auth.auth().currentUser?.uid else { return }
+    
+    //data dictionaly
+    let data = ["text": message,
+                "fromId": currentUid,
+                "toId": user.uid,
+                "timeatamp": Timestamp(date: Date())] as [String: Any]
+    
+    COLECTION_MESSAGES.document(currentUid).collection(user.uid).addDocument(data: data) { _ in
+        COLECTION_MESSAGES.document(user.uid).collection(currentUid).addDocument(data: data, completion: complication)
+    }
+}
 }

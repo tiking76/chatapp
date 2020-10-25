@@ -23,43 +23,43 @@ class RegistrationController : UIViewController {
     }()
     
     
-    private lazy var EmailContainerView : InputContainerView = {
-        return InputContainerView(image: #imageLiteral(resourceName: "ic_mail_outline_white_2x"), textField: EmailTextField)
+    private lazy var emailContainerView : InputContainerView = {
+        return InputContainerView(image: #imageLiteral(resourceName: "ic_mail_outline_white_2x"), textField: emailTextField)
     }()
     
     
-    private let EmailTextField = CustomTextField(placeholder: "Email")
+    private let emailTextField = CustomTextField(placeholder: "Email")
     
     
-    private lazy var FullNameContainerView : InputContainerView = {
-        return InputContainerView(image: #imageLiteral(resourceName: "ic_person_outline_white_2x"), textField: FullNameTextField)
+    private lazy var fullNameContainerView : InputContainerView = {
+        return InputContainerView(image: #imageLiteral(resourceName: "ic_person_outline_white_2x"), textField: fullNameTextField)
     }()
     
     
-    private let FullNameTextField = CustomTextField(placeholder: "Full Name")
+    private let fullNameTextField = CustomTextField(placeholder: "Full Name")
     
     
-    private lazy var UserNameContainerView : InputContainerView = {
-        return InputContainerView(image: #imageLiteral(resourceName: "ic_person_outline_white_2x"), textField: UserNameTextField)
+    private lazy var userNameContainerView : InputContainerView = {
+        return InputContainerView(image: #imageLiteral(resourceName: "ic_person_outline_white_2x"), textField: userNameTextField)
     }()
     
     
-    private let UserNameTextField = CustomTextField(placeholder: "Username")
+    private let userNameTextField = CustomTextField(placeholder: "Username")
     
     
-    private lazy var PasswordContainerView : InputContainerView = {
-        return InputContainerView(image: #imageLiteral(resourceName: "ic_lock_outline_white_2x"), textField: PasswordTextField)
+    private lazy var passwordContainerView : InputContainerView = {
+        return InputContainerView(image: #imageLiteral(resourceName: "ic_lock_outline_white_2x"), textField: passwordTextField)
     }()
     
     
-    private let PasswordTextField : CustomTextField = {
+    private let passwordTextField : CustomTextField = {
         let tf = CustomTextField(placeholder: "password")
         tf.isSecureTextEntry = true
         return tf
     }()
     
     
-    private let SignUpButton : UIButton = {
+    private let signUpButton : UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Sign Up", for: .normal)
         button.layer.cornerRadius = 5
@@ -73,7 +73,7 @@ class RegistrationController : UIViewController {
     }()
     
     
-    private let AlreadyHaveAccountButton: UIButton = {
+    private let alreadyHaveAccountButton: UIButton = {
            let button = UIButton(type: .system)
            let attributeTitle = NSMutableAttributedString(string: "Already have an account? ",
                                                           attributes: [.font : UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.white])
@@ -93,11 +93,11 @@ class RegistrationController : UIViewController {
     
     
     @objc func textDidChange(sender: UITextField) {
-        if sender == EmailTextField {
+        if sender == emailTextField {
             viewModel.email = sender.text
-        } else if sender == FullNameTextField {
+        } else if sender == fullNameTextField {
             viewModel.fullName = sender.text
-        } else if sender == UserNameTextField {
+        } else if sender == userNameTextField {
             viewModel.userName = sender.text
         } else {
             viewModel.passwprd = sender.text
@@ -133,11 +133,13 @@ class RegistrationController : UIViewController {
     
     
     @objc func handleRegistration() {
-        guard let email = EmailTextField.text else { return }
-        guard let fullName = FullNameTextField.text else { return }
-        guard let userName = UserNameTextField.text else { return }
-        guard let password = PasswordTextField.text?.lowercased() else { return }
+        guard let email = emailTextField.text else { return }
+        guard let fullName = fullNameTextField.text else { return }
+        guard let userName = userNameTextField.text else { return }
+        guard let password = passwordTextField.text?.lowercased() else { return }
         guard let profileImage = profileImage else { return }
+        
+        
         
         let credentials = RegistrationCredentials(email: email,
                                                   password: password,
@@ -166,11 +168,11 @@ class RegistrationController : UIViewController {
         plusPhotoButton.centerX(inView: view)
         plusPhotoButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 32)
         plusPhotoButton.setDimensions(width: 120, height: 120)
-        let stack = UIStackView(arrangedSubviews: [EmailContainerView,
-                                                   FullNameContainerView,
-                                                   UserNameContainerView,
-                                                   PasswordContainerView,
-                                                   SignUpButton])
+        let stack = UIStackView(arrangedSubviews: [emailContainerView,
+                                                   fullNameContainerView,
+                                                   userNameContainerView,
+                                                   passwordContainerView,
+                                                   signUpButton])
         //垂直に置く
         stack.axis = .vertical
         stack.spacing = 16
@@ -181,8 +183,8 @@ class RegistrationController : UIViewController {
                      paddingTop: 32,
                      paddingLeft: 32,
                      paddingRight: 32)
-        view.addSubview(AlreadyHaveAccountButton)
-        AlreadyHaveAccountButton.anchor(left: view.leftAnchor,
+        view.addSubview(alreadyHaveAccountButton)
+        alreadyHaveAccountButton.anchor(left: view.leftAnchor,
                                         bottom: view.safeAreaLayoutGuide.bottomAnchor,
                                         right: view.rightAnchor,
                                         paddingLeft: 32,
@@ -192,10 +194,10 @@ class RegistrationController : UIViewController {
     
     
     func configureNotificationObservers() {
-        EmailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        FullNameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        UserNameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        PasswordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        fullNameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        userNameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -212,8 +214,6 @@ extension RegistrationController : UIImagePickerControllerDelegate, UINavigation
         plusPhotoButton.layer.borderColor = UIColor.white.cgColor
         plusPhotoButton.layer.borderWidth = 3.0
         plusPhotoButton.layer.cornerRadius = 115 / 2
-        plusPhotoButton.imageView?.clipsToBounds = true
-        plusPhotoButton.imageView?.contentMode = .scaleToFill
         dismiss(animated: true, completion: nil)
     }
 }
@@ -222,11 +222,11 @@ extension RegistrationController : UIImagePickerControllerDelegate, UINavigation
 extension RegistrationController : AuthenticationControllerProtocol {
     func checkFormStatus() {
         if viewModel.formIsVaild {
-            SignUpButton.isEnabled = true
-            SignUpButton.backgroundColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+            signUpButton.isEnabled = true
+            signUpButton.backgroundColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
         }else {
-            SignUpButton.isEnabled = false
-            SignUpButton.backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)
+            signUpButton.isEnabled = false
+            signUpButton.backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)
         }
     }
 }

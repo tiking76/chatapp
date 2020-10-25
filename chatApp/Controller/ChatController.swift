@@ -35,7 +35,7 @@ class ChatController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        print("DEBUG: User in chat controller is \(user.username)")
+        featchMessages()
     }
     
     override var inputAccessoryView: UIView? {
@@ -46,7 +46,19 @@ class ChatController: UICollectionViewController {
         return true
     }
     
+    //MARK - API
     
+    func featchMessages() {
+        Service.featchMessages(forUser: user) { messages in
+            self.messages = messages
+            DispachQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
+    
+    // MARK - Helpers
     func configureUI() {
         collectionView.backgroundColor = .white
         configureNavigationBar(withTitle: user.username, prefersLargeTitle: false)
@@ -79,12 +91,13 @@ extension ChatController: UICollectionViewDelegateFlowLayout {
 
 extension ChatController: CustomInputAccessoryViewDelegate {
     func inputView(_ inputView: CustomInputAccessoryView, wantsToSend message: String) {
-        inputView.messageInputTextView.text = nil
         
-        
-        fromCurrentUser.toggle()
-        let message = Message(text: message, isFromCurrentUser: fromCurrentUser)
-        messages.append(message)
-        collectionView.reloadData()
+        Service.uploadMessage(message, to: user) { error in
+            if let error = error {
+                print("DEBUG: Faild to upload message with error \(error.localizedDescription)")
+                return
+            }
+            inputView.clearMessageText()
+        }
     }
 }
