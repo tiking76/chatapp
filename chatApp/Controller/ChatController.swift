@@ -51,7 +51,7 @@ class ChatController: UICollectionViewController {
     func featchMessages() {
         Service.featchMessages(forUser: user) { messages in
             self.messages = messages
-            DispachQueue.main.async {
+            DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
         }
@@ -81,7 +81,15 @@ extension ChatController {
 
 extension ChatController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 50)
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
+        let estimatedSizeCell = MessageCell(frame: frame)
+        estimatedSizeCell.message = messages[indexPath.row]
+        estimatedSizeCell.layoutIfNeeded()
+        
+        let targetSize = CGSize(width: view.frame.width, height: 1000)
+        let estimatedSize = estimatedSizeCell.systemLayoutSizeFitting(targetSize)
+        
+        return .init(width: view.frame.width, height: estimatedSize.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
