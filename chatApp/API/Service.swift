@@ -26,6 +26,25 @@ struct Service {
     }
     
     
+    
+    static func featchConversations(complication :  @escaping ([Conversation]) -> Void) {
+        var conversations = [Conversation]()
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let query = COLLECTION_MESSAGES.document(uid).collection("recent-messages").order(by: "timestamp")
+        
+        query.addSnapshotListener { (snapshot, error) in
+            snapshot?.documentChanges.forEach({ change in
+                let dictionary = change.document.data()
+                let message = Message(dictinary: dictionary)
+                let mockUser = User(dictionary: dictionary)
+                
+                let conversation = Conversation(user: mockUser, message: message)
+            })
+        }
+    }
+    
+    
     static func featchMessages(forUser user: User, complication : @escaping ([Message]) -> Void) {
         var message  = [Message]()
         
