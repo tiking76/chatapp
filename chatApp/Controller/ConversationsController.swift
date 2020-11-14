@@ -12,6 +12,7 @@ private let reuseIdentifier = "ConversationCell"
 class ConversationsController: UIViewController {
 
     private let tableView = UITableView()
+    private var conversations = [Conversation]()
     
     
     private let newMessageButton: UIButton = {
@@ -27,6 +28,14 @@ class ConversationsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        authenticateUser()
+        featchConversations()
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavigationBar(withTitle: "Message", prefersLargeTitle: true)
     }
 
 
@@ -40,6 +49,15 @@ class ConversationsController: UIViewController {
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
+    }
+    
+    // MARK: - API
+    
+    func featchConversations() {
+        Service.featchConversations { conversations in
+            self.conversations = conversations
+            self.tableView.reloadData()
+        }
     }
     
     func authenticateUser() {
@@ -75,7 +93,6 @@ class ConversationsController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .white
-        configureNavigationBar(withTitle: "Message", prefersLargeTitle: true)
         configureTableView()
         let image = UIImage(systemName: "person.circle.fill")
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image,
@@ -88,12 +105,18 @@ class ConversationsController: UIViewController {
         newMessageButton.layer.cornerRadius = 56 / 2
         newMessageButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingBottom: 16, paddingRight: 24)
     }
+    
+    
+    func showChatController(forUser user: User) {
+        let controller = ChatController(user: user)
+        navigationController?.pushViewController(controller, animated: true)
+    }
 
     
     func configureTableView() {
         tableView.backgroundColor = .white
         tableView.rowHeight = 80
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(ConversationCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
@@ -104,26 +127,32 @@ class ConversationsController: UIViewController {
 
 extension ConversationsController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return conversations.count
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-        cell.textLabel?.text = "Test Label"
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ConversationCell
+        cell.conversation = conversations[indexPath.row]
         return cell
     }
 }
 
+
+//MARK - UITableViewDelegate
+
 extension ConversationsController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+        let user = conversations[indexPath.row].user
+        showChatController(forUser: user)
     }
 }
+
+
+//MARK - NewMessageCnotrollerDelegate
 
 extension ConversationsController: NewMessageCnotrollerDelegate {
     func controller(_ controller: NewMessageController, wantsToStartChatWith user: User) {
         controller.dismiss(animated: true, completion: nil)
-        let chat = ChatController(user: user)
-        navigationController?.pushViewController(chat, animated: true)
+        showChatController(forUser: user)
     }
 }
