@@ -31,6 +31,12 @@ class ConversationsController: UIViewController {
         authenticateUser()
         featchConversations()
     }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavigationBar(withTitle: "Message", prefersLargeTitle: true)
+    }
 
 
     @objc func showProfile() {
@@ -87,7 +93,6 @@ class ConversationsController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .white
-        configureNavigationBar(withTitle: "Message", prefersLargeTitle: true)
         configureTableView()
         let image = UIImage(systemName: "person.circle.fill")
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image,
