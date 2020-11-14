@@ -74,6 +74,7 @@ class ConversationCell : UITableViewCell {
     //MARK: - Helpers
     
     func configure() {
-        
+        usernameLabel.text = conversation?.user.username
+        messageLabel.text = conversation?.message.text
     }
 }
