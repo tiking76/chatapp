@@ -51,9 +51,9 @@ class ChatController: UICollectionViewController {
     func featchMessages() {
         Service.featchMessages(forUser: user) { messages in
             self.messages = messages
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
+            self.collectionView.reloadData()
+            //最新までスクロール
+            self.collectionView.scrollToItem(at: [0, self.messages.count - 1], at: .bottom, animated: true)
         }
     }
     
@@ -64,6 +64,7 @@ class ChatController: UICollectionViewController {
         configureNavigationBar(withTitle: user.username, prefersLargeTitle: false)
         collectionView.register(MessageCell.self, forCellWithReuseIdentifier: reuseIdentifer)
         collectionView.alwaysBounceVertical = true
+        collectionView.keyboardDismissMode = .interactive
     }
 }
 
