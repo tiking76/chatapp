@@ -74,7 +74,12 @@ class ConversationCell : UITableViewCell {
     //MARK: - Helpers
     
     func configure() {
-        usernameLabel.text = conversation?.user.username
-        messageLabel.text = conversation?.message.text
+        guard let conversation = conversation else { return }
+        let viewModel = ConversationViewModel(conversation: conversation)
+        usernameLabel.text = conversation.user.username
+        messageLabel.text = conversation.message.text
+        
+        timestampLabel.text = viewModel.timestamp
+        profileImageView.sd_setImage(with: viewModel.profileImageUrl)
     }
 }
