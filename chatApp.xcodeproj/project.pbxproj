@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		114C6F772560063B0069A2CC /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114C6F762560063B0069A2CC /* ConversationCell.swift */; };
 		11725CF524BF85D8003F0AFF /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11725CF424BF85D8003F0AFF /* AuthService.swift */; };
 		1174A19824C1B68700E951CD /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1174A19724C1B68700E951CD /* UserCell.swift */; };
 		1174A19A24C1CE4200E951CD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1174A19924C1CE4200E951CD /* User.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		114C6F762560063B0069A2CC /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		11725CF424BF85D8003F0AFF /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		1174A19724C1B68700E951CD /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		1174A19924C1CE4200E951CD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				1174A19724C1B68700E951CD /* UserCell.swift */,
 				1174A19F24C22CE600E951CD /* CustomInputAccessoryView.swift */,
 				1174A1A124C28E3E00E951CD /* MessageCell.swift */,
+				114C6F762560063B0069A2CC /* ConversationCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				11F84F4324BCD21500EAFD0D /* LoginViewModel.swift in Sources */,
 				1174A19E24C2218900E951CD /* ChatController.swift in Sources */,
 				FB774453052CAB125EF06D2E /* ContainerTextField.swift in Sources */,
+				114C6F772560063B0069A2CC /* ConversationCell.swift in Sources */,
 				1192D43A24C565C10055DE48 /* Message.swift in Sources */,
 				11938E4424C01D850078BB38 /* NewMessageController.swift in Sources */,
 				1174A1A024C22CE600E951CD /* CustomInputAccessoryView.swift in Sources */,
