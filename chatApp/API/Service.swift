@@ -31,7 +31,7 @@ struct Service {
         
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         
-        let quary = COLECTION_MESSAGES.document(currentUid).collection(user.uid).order(by: "timeatamp")
+        let quary = COLLECTION_MESSAGES.document(currentUid).collection(user.uid).order(by: "timeatamp")
         
         quary.addSnapshotListener { (snapshot, error) in
             snapshot?.documentChanges.forEach({ change in
@@ -54,8 +54,10 @@ struct Service {
                 "toId": user.uid,
                 "timeatamp": Timestamp(date: Date())] as [String: Any]
     
-    COLECTION_MESSAGES.document(currentUid).collection(user.uid).addDocument(data: data) { _ in
-        COLECTION_MESSAGES.document(user.uid).collection(currentUid).addDocument(data: data, completion: complication)
+    COLLECTION_MESSAGES.document(currentUid).collection(user.uid).addDocument(data: data) { _ in
+        COLLECTION_MESSAGES.document(user.uid).collection(currentUid).addDocument(data: data, completion: complication)
+        COLLECTION_MESSAGES.document(currentUid).collection("recent-messages").document(user.uid).setData(data)
+        COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(currentUid).setData(data)
     }
 }
 }
