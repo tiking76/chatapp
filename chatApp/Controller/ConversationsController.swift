@@ -116,7 +116,7 @@ class ConversationsController: UIViewController {
     func configureTableView() {
         tableView.backgroundColor = .white
         tableView.rowHeight = 80
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(ConversationCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
@@ -131,8 +131,8 @@ extension ConversationsController: UITableViewDataSource {
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-        cell.textLabel?.text = conversations[indexPath.row].message.text
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ConversationCell
+        cell.conversation = conversations[indexPath.row]
         return cell
     }
 }
