@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		114C6F772560063B0069A2CC /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114C6F762560063B0069A2CC /* ConversationCell.swift */; };
+		114C6F7A25600EF00069A2CC /* ConversationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114C6F7925600EF00069A2CC /* ConversationViewModel.swift */; };
 		11725CF524BF85D8003F0AFF /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11725CF424BF85D8003F0AFF /* AuthService.swift */; };
 		1174A19824C1B68700E951CD /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1174A19724C1B68700E951CD /* UserCell.swift */; };
 		1174A19A24C1CE4200E951CD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1174A19924C1CE4200E951CD /* User.swift */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		114C6F762560063B0069A2CC /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
+		114C6F7925600EF00069A2CC /* ConversationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModel.swift; sourceTree = "<group>"; };
 		11725CF424BF85D8003F0AFF /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		1174A19724C1B68700E951CD /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		1174A19924C1CE4200E951CD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				11F84F4224BCD21500EAFD0D /* LoginViewModel.swift */,
 				11F84F4424BCE69F00EAFD0D /* RegistrationViewModel.swift */,
 				1192D43B24C56FF20055DE48 /* MessgeViewModel.swift */,
+				114C6F7925600EF00069A2CC /* ConversationViewModel.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 				1174A1A224C28E3E00E951CD /* MessageCell.swift in Sources */,
 				1192D43C24C56FF20055DE48 /* MessgeViewModel.swift in Sources */,
 				FB774C968A1AE0CBE00719B0 /* RegistrationController.swift in Sources */,
+				114C6F7A25600EF00069A2CC /* ConversationViewModel.swift in Sources */,
 				FB774866162D7166F5599B89 /* Extentions.swift in Sources */,
 				11838B29253932D100770E73 /* Costants.swift in Sources */,
 				FB7741299B2FD3496356DB05 /* InputContainerView.swift in Sources */,
