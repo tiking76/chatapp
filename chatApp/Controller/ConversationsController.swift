@@ -12,6 +12,7 @@ private let reuseIdentifier = "ConversationCell"
 class ConversationsController: UIViewController {
 
     private let tableView = UITableView()
+    private var conversations = [Conversation]()
     
     
     private let newMessageButton: UIButton = {
@@ -27,6 +28,8 @@ class ConversationsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        authenticateUser()
+        featchConversations()
     }
 
 
@@ -40,6 +43,15 @@ class ConversationsController: UIViewController {
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
+    }
+    
+    // MARK: - API
+    
+    func featchConversations() {
+        Service.featchConversations { conversations in
+            self.conversations = conversations
+            self.tableView.reloadData()
+        }
     }
     
     func authenticateUser() {
@@ -104,12 +116,12 @@ class ConversationsController: UIViewController {
 
 extension ConversationsController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return conversations.count
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-        cell.textLabel?.text = "Test Label"
+        cell.textLabel?.text = conversations[indexPath.row].message.text
         return cell
     }
 }
