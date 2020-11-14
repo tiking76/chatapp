@@ -12,7 +12,7 @@ struct Service {
     
     static func fetchUsers(complecation: @escaping ([User]) -> Void) {
         var users = [User]()
-        Firestore.firestore().collection("users").getDocuments { snapshot, error in
+        COLLECTION_USER.getDocuments { snapshot, error in
             snapshot?.documents.forEach({ document in
                 
                 
@@ -25,7 +25,13 @@ struct Service {
         }
     }
     
-    
+    static func featchUser(withUid uid: String, complication: @escaping (User) -> Void) {
+        COLLECTION_USER.document(uid).getDocument { (snapshot, error) in
+            guard let dictionary = snapshot?.data() else { return }
+            let user = User(dictionary: dictionary)
+            complication(user)
+        }
+    }
     
     static func featchConversations(complication :  @escaping ([Conversation]) -> Void) {
         var conversations = [Conversation]()
@@ -37,9 +43,11 @@ struct Service {
             snapshot?.documentChanges.forEach({ change in
                 let dictionary = change.document.data()
                 let message = Message(dictinary: dictionary)
-                let mockUser = User(dictionary: dictionary)
-                
-                let conversation = Conversation(user: mockUser, message: message)
+                self.featchUser(withUid: message.toId) { user in
+                    let conversation = Conversation(user: user, message: message)
+                    conversations.append(conversation)
+                    complication(conversations)
+                }
             })
         }
     }
