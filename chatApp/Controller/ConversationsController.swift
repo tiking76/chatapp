@@ -126,11 +126,19 @@ extension ConversationsController: UITableViewDataSource {
     }
 }
 
+
+//MARK - UITableViewDelegate
+
 extension ConversationsController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+        let user = conversations[indexPath.row].user
+        let controller = ChatController(user: user)
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
+
+
+//MARK - NewMessageCnotrollerDelegate
 
 extension ConversationsController: NewMessageCnotrollerDelegate {
     func controller(_ controller: NewMessageController, wantsToStartChatWith user: User) {
