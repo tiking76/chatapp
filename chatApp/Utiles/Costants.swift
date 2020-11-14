@@ -8,4 +8,4 @@
 
 import Firebase
 
-let COLECTION_MESSAGES = Firestore.firestore().collection("messages")
+open let COLLECTION_MESSAGES = Firestore.firestore().collection("messages")
