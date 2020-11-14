@@ -105,6 +105,12 @@ class ConversationsController: UIViewController {
         newMessageButton.layer.cornerRadius = 56 / 2
         newMessageButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingBottom: 16, paddingRight: 24)
     }
+    
+    
+    func showChatController(forUser user: User) {
+        let controller = ChatController(user: user)
+        navigationController?.pushViewController(controller, animated: true)
+    }
 
     
     func configureTableView() {
@@ -137,8 +143,7 @@ extension ConversationsController: UITableViewDataSource {
 extension ConversationsController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let user = conversations[indexPath.row].user
-        let controller = ChatController(user: user)
-        navigationController?.pushViewController(controller, animated: true)
+        showChatController(forUser: user)
     }
 }
 
@@ -148,7 +153,6 @@ extension ConversationsController: UITableViewDelegate {
 extension ConversationsController: NewMessageCnotrollerDelegate {
     func controller(_ controller: NewMessageController, wantsToStartChatWith user: User) {
         controller.dismiss(animated: true, completion: nil)
-        let chat = ChatController(user: user)
-        navigationController?.pushViewController(chat, animated: true)
+        showChatController(forUser: user)
     }
 }
